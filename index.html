@@ -88,21 +88,3 @@
     </script>
 </body>
 </html>
-           
-            fetch(scriptURL, { method: 'POST', body: requestBody })
-                .then(response => {
-                    message.style.display = "block"; 
-                    form.reset(); 
-                    submitBtn.innerHTML = "তথ্য জমা দিন";
-                    submitBtn.disabled = false;
-                    setTimeout(() => message.style.display = "none", 4000); 
-                })
-                .catch(error => {
-                    alert('তথ্য জমা দিতে সমস্যা হয়েছে! কারণ: ' + error.message);
-                    submitBtn.innerHTML = "তথ্য জমা দিন";
-                    submitBtn.disabled = false;
-                });
-        });
-    </script>
-</body>
-</html>
