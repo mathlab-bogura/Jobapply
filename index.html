@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>তথ্য সংগ্রহ ফর্ম</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+        .form-container { background: white; padding: 20px; border-radius: 8px; max-width: 400px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { padding: 10px; width: 100%; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
+        
+        /* ফর্মের ইনপুট বক্সে রঙ */
+        .start-date { border: 2px solid green; outline-color: green; }
+        .end-date { border: 2px solid red; outline-color: red; }
+        
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; }
+        button:hover { background-color: #0056b3; }
+        #message { margin-top: 15px; color: green; font-weight: bold; display: none; text-align: center; }
+        
+        /* মেধা স্বত্ব ডিজাইন */
+        .copyright { margin-top: 20px; font-size: 13px; color: #777; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2 style="text-align: center;">পদের তথ্য জমা দিন</h2>
+        <form id="dataForm">
+            <div class="form-group">
+                <label for="jobTitle">পদের নাম:</label>
+                <input type="text" id="jobTitle" name="jobTitle" placeholder="যেমন: সহকারী শিক্ষক" required>
+            </div>
+            <div class="form-group">
+                <label for="startDate">শুরুর তারিখ:</label>
+                <input type="date" id="startDate" name="startDate" class="start-date" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">শেষ তারিখ:</label>
+                <input type="date" id="endDate" name="endDate" class="end-date" required>
+            </div>
+            <div class="form-group">
+                <label for="vacancies">পদ সংখ্যা:</label>
+                <input type="number" id="vacancies" name="vacancies" placeholder="যেমন: ৫" required>
+            </div>
+            <button type="submit" id="submitBtn">তথ্য জমা দিন</button>
+            <div id="message">তথ্য সফলভাবে গুগল শিটে জমা হয়েছে!</div>
+        </form>
+        
+        <!-- মেধা স্বত্ব সেকশন -->
+        <div class="copyright">
+            &copy; ২০২৬ মোঃ মাহমুদুল হাসান। সর্বস্বত্ব সংরক্ষিত।
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('dataForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const message = document.getElementById('message');
+
+        // আপনার নতুন URL এখানে বসানো হয়েছে 
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwf_izxXxRve0CWVNSoEPZONoU_QV4Ln8Lfj9KhzqBrPJgz1Nw-Z0IBlwBWW4y7toCTsQ/exec'; 
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            submitBtn.innerHTML = "জমা হচ্ছে...";
+            submitBtn.disabled = true;
+
+            let requestBody = new URLSearchParams(new FormData(form));
+            
+            fetch(scriptURL, { method: 'POST', body: requestBody })
+                .then(response => {
+                    message.style.display = "block"; 
+                    form.reset(); 
+                    submitBtn.innerHTML = "তথ্য জমা দিন";
+                    submitBtn.disabled = false;
+                    setTimeout(() => message.style.display = "none", 4000); 
+                })
+                .catch(error => {
+                    alert('তথ্য জমা দিতে সমস্যা হয়েছে! কারণ: ' + error.message);
+                    submitBtn.innerHTML = "তথ্য জমা দিন";
+                    submitBtn.disabled = false;
+                });
+        });
+    </script>
+</body>
+</html>
